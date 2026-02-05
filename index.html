@@ -3,92 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Question ❤️</title>
+    <title>Will You Be My Valentine? ❤️</title>
     <style>
         body {
+            margin: 0;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #fff5f8;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #d63384;
+            background-color: #ffeef2;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             overflow: hidden;
             text-align: center;
         }
+
         .container {
-            padding: 30px;
             background: white;
+            padding: 40px;
             border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(214, 51, 132, 0.2);
-            max-width: 400px;
-            z-index: 10;
+            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2);
+            max-width: 500px;
+            position: relative;
+            z-index: 5;
         }
-        h1 { font-size: 2rem; margin-bottom: 20px; line-height: 1.4; }
+
+        h1 { color: #ff4d6d; font-size: 2.5rem; }
+
         .gif-container img {
-            width: 200px;
-            border-radius: 15px;
+            width: 180px;
             margin-bottom: 20px;
         }
-        .buttons {
+
+        .btn-wrapper {
             display: flex;
-            gap: 20px;
             justify-content: center;
             align-items: center;
-            height: 100px; /* Space for the moving button */
+            gap: 30px;
+            margin-top: 30px;
+            min-height: 150px;
         }
+
         button {
             padding: 15px 35px;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
-        #yesBtn { background-color: #ff4d6d; color: white; }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+            z-index: 1000; /* Stays on top */
+        }
+
         #noBtn {
-            background-color: #adb5bd;
+            background-color: #6c757d;
             color: white;
             position: absolute;
-            transition: 0.1s;
+            transition: 0.15s;
         }
-        #yesBtn:hover { transform: scale(1.2); background-color: #ff0e39; }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" id="mainContainer">
         <div class="gif-container">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1bmx0ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute GIF">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1bmx0ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute Panda">
         </div>
         <h1>Will you be my Valentine? ❤️</h1>
-        <div class="buttons">
+        <div class="btn-wrapper">
             <button id="yesBtn" onclick="celebrate()">Yes!</button>
             <button id="noBtn" onmouseover="moveButton()">No</button>
         </div>
     </div>
 
     <script>
+        let yesSize = 1.5;
+        const noPhrases = ["No", "Are you sure?", "Nice try!", "Missed me!", "Over here!", "Try again!", "Nope!", "Wrong button!"];
+        let phraseIndex = 0;
+
         function moveButton() {
             const btn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            
+            // Move the No button
             const x = Math.random() * (window.innerWidth - btn.offsetWidth);
             const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            btn.style.position = 'fixed';
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
-            btn.style.position = 'fixed';
+
+            // Change the No button text
+            phraseIndex = (phraseIndex + 1) % noPhrases.length;
+            btn.innerText = noPhrases[phraseIndex];
+
+            // Make the Yes button BIGGER
+            yesSize += 0.2;
+            yesBtn.style.transform = `scale(${yesSize})`;
         }
 
         function celebrate() {
-            document.body.innerHTML = `
-                <div class="container">
-                    <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZ0ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/26FLdmIp6wJr91JAI/giphy.gif" width="200">
-                    <h1>Yay! I knew it! 🥰❤️</h1>
-                    <p>I can't wait to spend the day with you!</p>
-                </div>
+            const container = document.getElementById('mainContainer');
+            container.innerHTML = `
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZ0ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/26FLdmIp6wJr91JAI/giphy.gif" width="250">
+                <h1 style="font-size: 3rem;">I KNEW IT! ❤️🥰</h1>
+                <p style="font-size: 1.5rem; color: #ff4d6d;">Best Valentine's ever! I love you!</p>
             `;
+            document.body.style.backgroundColor = "#ffc8dd";
         }
     </script>
 </body>
