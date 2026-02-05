@@ -1,51 +1,118 @@
-<script>
-        let yesSize = 1;
-        const noPhrases = ["No", "Are you sure?", "Nice try!", "Missed me!", "Over here!", "Try again!", "Nope!", "Wrong button!"];
-        let phraseIndex = 0;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Favorite Person ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffeef2;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
 
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 80%;
+            max-width: 350px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 { color: #ff4d6d; font-size: 1.8rem; margin-bottom: 20px; }
+
+        .gif-container img { width: 150px; margin-bottom: 10px; }
+
+        .btn-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            position: relative;
+            height: 120px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            transition: transform 0.2s ease;
+            width: 150px;
+            z-index: 100;
+        }
+
+        #noBtn {
+            background-color: #adb5bd;
+            color: white;
+            width: 100px;
+            transition: 0.1s ease;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <div class="gif-container">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1bmx0ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Hearts">
+        </div>
+        <h1>Will you be my Valentine? ❤️</h1>
+        <div class="btn-wrapper">
+            <button id="yesBtn" onclick="celebrate()">Yes!</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()" ontouchstart="moveButton()">No</button>
+        </div>
+    </div>
+
+    <script>
+        let yesScale = 1;
         const noBtn = document.getElementById('noBtn');
         const yesBtn = document.getElementById('yesBtn');
 
-        // This function handles the "Escape"
         function moveButton(e) {
-            // Prevent accidental clicks on mobile
-            if (e) e.preventDefault(); 
-
-            // Calculate new random position
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            if (e) e.preventDefault();
             
+            // Calculate random coordinates
+            const maxX = window.innerWidth - noBtn.offsetWidth;
+            const maxY = window.innerHeight - noBtn.offsetHeight;
+            
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
             noBtn.style.position = 'fixed';
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
 
-            // Change the text to be sassy
-            phraseIndex = (phraseIndex + 1) % noPhrases.length;
-            noBtn.innerText = noPhrases[phraseIndex];
-
-            // Make the Yes button grow
-            yesSize += 0.15;
-            yesBtn.style.transform = `scale(${yesSize})`;
-            
-            // Move Yes button back to center if it shifts
-            yesBtn.style.zIndex = "100";
+            // Grow the Yes button
+            yesScale += 0.2;
+            yesBtn.style.transform = `scale(${yesScale})`;
         }
 
-        // Add both Mouse and Touch listeners
-        noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', moveButton);
-        noBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            moveButton();
-        });
-
         function celebrate() {
-            const container = document.getElementById('mainContainer');
-            container.innerHTML = `
-                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZ0ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/26FLdmIp6wJr91JAI/giphy.gif" width="250">
-                <h1 style="font-size: 3rem;">I KNEW IT! ❤️🥰</h1>
-                <p style="font-size: 1.5rem; color: #ff4d6d;">Best Valentine's ever! I love you!</p>
+            document.getElementById('mainContainer').innerHTML = `
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZ0ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/26FLdmIp6wJr91JAI/giphy.gif" width="100%">
+                <h1 style="font-size: 2rem;">I KNEW IT! ❤️🥰</h1>
+                <p style="color: #ff4d6d; font-weight: bold;">I love you so much!</p>
             `;
             document.body.style.backgroundColor = "#ffc8dd";
         }
     </script>
+</body>
+</html>
