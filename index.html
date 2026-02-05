@@ -1,110 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine? ❤️</title>
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #ffeef2;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            overflow: hidden;
-            text-align: center;
-        }
-
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2);
-            max-width: 500px;
-            position: relative;
-            z-index: 5;
-        }
-
-        h1 { color: #ff4d6d; font-size: 2.5rem; }
-
-        .gif-container img {
-            width: 180px;
-            margin-bottom: 20px;
-        }
-
-        .btn-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            margin-top: 30px;
-            min-height: 150px;
-        }
-
-        button {
-            padding: 15px 35px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        #yesBtn {
-            background-color: #ff4d6d;
-            color: white;
-            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
-            z-index: 1000; /* Stays on top */
-        }
-
-        #noBtn {
-            background-color: #6c757d;
-            color: white;
-            position: absolute;
-            transition: 0.15s;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container" id="mainContainer">
-        <div class="gif-container">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1bmx0ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3eG05ZzR3ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute Panda">
-        </div>
-        <h1>Will you be my Valentine? ❤️</h1>
-        <div class="btn-wrapper">
-            <button id="yesBtn" onclick="celebrate()">Yes!</button>
-            <button id="noBtn" onmouseover="moveButton()">No</button>
-        </div>
-    </div>
-
-    <script>
-        let yesSize = 1.5;
+<script>
+        let yesSize = 1;
         const noPhrases = ["No", "Are you sure?", "Nice try!", "Missed me!", "Over here!", "Try again!", "Nope!", "Wrong button!"];
         let phraseIndex = 0;
 
-        function moveButton() {
-            const btn = document.getElementById('noBtn');
-            const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+
+        // This function handles the "Escape"
+        function moveButton(e) {
+            // Prevent accidental clicks on mobile
+            if (e) e.preventDefault(); 
+
+            // Calculate new random position
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
             
-            // Move the No button
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-            btn.style.position = 'fixed';
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
 
-            // Change the No button text
+            // Change the text to be sassy
             phraseIndex = (phraseIndex + 1) % noPhrases.length;
-            btn.innerText = noPhrases[phraseIndex];
+            noBtn.innerText = noPhrases[phraseIndex];
 
-            // Make the Yes button BIGGER
-            yesSize += 0.2;
+            // Make the Yes button grow
+            yesSize += 0.15;
             yesBtn.style.transform = `scale(${yesSize})`;
+            
+            // Move Yes button back to center if it shifts
+            yesBtn.style.zIndex = "100";
         }
+
+        // Add both Mouse and Touch listeners
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', moveButton);
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
 
         function celebrate() {
             const container = document.getElementById('mainContainer');
@@ -116,5 +49,3 @@
             document.body.style.backgroundColor = "#ffc8dd";
         }
     </script>
-</body>
-</html>
